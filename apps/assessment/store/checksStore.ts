@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { Check } from '../types/check'
+import { Check } from '../common/types/check'
 
 interface ChecksState {
   checks: Check[]

@@ -1,5 +1,5 @@
-import { Check } from '../types/check';
-import CheckItem from './CheckItem';
+import { Check } from '../common/types/check';
+import CheckItem from './checkItem';
 
 interface CheckListProps {
   checks: Check[];

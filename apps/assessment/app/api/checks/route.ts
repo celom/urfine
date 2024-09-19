@@ -12,12 +12,22 @@ export async function GET() {
     )
   }
 
-  const res = await fetch('https://api.uptime.com/v1/checks', {
-    headers: {
-      'Authorization': `Token ${session.accessToken}`,
-      'Content-Type': 'application/json',
-    },
-  })
+  // const res = await fetch('https://api.celom.com/v1/checks', {
+  //   headers: {
+  //     'Authorization': `Token ${session.accessToken}`,
+  //     'Content-Type': 'application/json',
+  //   },
+  // })
+
+  // mock above call
+  const res = {
+    ok: true,
+    json: async () => ([
+      { id: 1, name: 'Check 1' },
+      { id: 2, name: 'Check 2' },
+      { id: 3, name: 'Check 3' },
+    ])
+  }
 
   const checks = await res.json()
 

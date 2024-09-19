@@ -2,8 +2,8 @@
 
 import { useEffect } from 'react';
 import { useChecksStore } from '../store/checksStore';
-import CheckList from './CheckList';
-import { Button } from '@/components/ui/button';
+import CheckList from './checkList';
+import { Button } from '@uptime/components/button';
 import { signOut } from 'next-auth/react';
 
 export default function Dashboard() {

@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Check } from '../types/check';
+import { Check } from '../common/types/check';
 import { useChecksStore } from '../store/checksStore';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import { Input } from '@uptime/components/input';
+import { Button } from '@uptime/components/button';
 
 interface CheckItemProps {
   check: Check;

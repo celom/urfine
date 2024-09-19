@@ -12,14 +12,23 @@ export const authOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null
 
-        const res = await fetch('https://api.uptime.com/v1/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+        // const res = await fetch('https://api.celom.com/v1/auth/login', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({
+        //     email: credentials.email,
+        //     password: credentials.password,
+        //   }),
+        // })
+
+        // mock above call
+        const res = {
+          ok: true,
+          json: async () => ({
+            token: 'mocked_token  ' + credentials.email,
             email: credentials.email,
-            password: credentials.password,
-          }),
-        })
+          }) as any
+        }
 
         const user = await res.json()
 
@@ -31,13 +40,13 @@ export const authOptions = {
     })
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: any, user?: any }) {
       if (user) {
         token.accessToken = user.token
       }
       return token
     },
-    async session({ session, token }) {
+    async session({ session, token }: { session: any, token: any }) {
       session.accessToken = token.accessToken
       return session
     }

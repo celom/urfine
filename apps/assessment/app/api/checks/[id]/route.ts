@@ -14,14 +14,23 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 
   const body = await request.json()
 
-  const res = await fetch(`https://api.uptime.com/v1/checks/${params.id}`, {
-    method: 'PATCH',
-    headers: {
-      'Authorization': `Token ${session.accessToken}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  })
+  // const res = await fetch(`https://api.celom.com/v1/checks/${params.id}`, {
+  //   method: 'PATCH',
+  //   headers: {
+  //     'Authorization': `Token ${session.accessToken}`,
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify(body),
+  // })
+
+  // mock above call
+  const res = {
+    ok: true,
+    json: async () => ({
+      id: params.id,
+      ...body,
+    })
+  }
 
   const updatedCheck = await res.json()
 

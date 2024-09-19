@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from '@uptime/components/button';
+import { Input } from '@uptime/components/input';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
