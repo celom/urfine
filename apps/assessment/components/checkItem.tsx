@@ -16,7 +16,7 @@ export default function CheckItem({ check }: CheckItemProps) {
   const { updateCheck } = useChecksStore();
 
   const handleSave = () => {
-    updateCheck(check.id, { name });
+    updateCheck(check.pk, { name });
     setIsEditing(false);
   };
 
