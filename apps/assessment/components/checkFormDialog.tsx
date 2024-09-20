@@ -1,19 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@uptime/components/dialog';
 import { Button } from '@uptime/components/button';
-import { Label } from '@uptime/components/label';
 import { Input } from '@uptime/components/input';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@uptime/components/form';
 import {
   Check,
   CheckInsert,
   CheckUpdate,
   spawnCheck,
+  CheckFormSchema,
 } from '../common/types/check';
+import { z } from 'zod';
 
 interface CheckFormDialogProps {
   isOpen: boolean;
@@ -22,71 +34,79 @@ interface CheckFormDialogProps {
   initialData: Check | null;
 }
 
+type CheckForm = z.infer<typeof CheckFormSchema>;
+
 export function CheckFormDialog({
   isOpen,
   onClose,
   onSubmit,
   initialData,
 }: CheckFormDialogProps) {
-  const [formData, setFormData] = useState<Check | CheckInsert>(
-    initialData ?? spawnCheck()
-  );
+  const form = useForm<CheckForm>({
+    resolver: zodResolver(CheckFormSchema),
+    defaultValues: initialData ?? spawnCheck(),
+  });
 
   useEffect(() => {
-    setFormData(initialData ?? spawnCheck());
-  }, [initialData]);
+    form.reset(initialData ?? spawnCheck());
+  }, [initialData, form]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(formData);
+  const handleSubmit = (data: CheckForm) => {
+    onSubmit(initialData ? { ...initialData, ...data } : data);
     onClose();
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="p-0">
+      <DialogContent
+        onInteractOutside={(e) => e.preventDefault()}
+        className="p-0"
+      >
         <DialogHeader className="p-6 border-b">
           <DialogTitle className="font-light">
             {initialData ? 'Edit Check' : 'Add Check'}
           </DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit}>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
-                Name
-              </Label>
-              <Input
-                id="name"
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleSubmit)}>
+            <div className="flex flex-col gap-8 py-6 px-8">
+              <FormField
+                control={form.control}
                 name="name"
-                value={formData?.name}
-                onChange={handleChange}
-                className="col-span-3"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Name</FormLabel>
+                    <FormControl className="col-span-3">
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="url" className="text-right">
-                URL
-              </Label>
-              <Input
-                id="url"
+              <FormField
+                control={form.control}
                 name="url"
-                value={formData?.url}
-                onChange={handleChange}
-                className="col-span-3"
-                type="url"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>URL</FormLabel>
+                    <FormControl className="col-span-3">
+                      <Input {...field} type="url" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
             </div>
-          </div>
-          <div className="flex justify-end">
-            <Button type="submit">{initialData ? 'Update' : 'Add'}</Button>
-          </div>
-        </form>
+          </form>
+        </Form>
+        <DialogFooter className="p-6 border-t">
+          <Button onClick={() => form.handleSubmit(handleSubmit)()}>
+            Save
+          </Button>
+          <Button variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

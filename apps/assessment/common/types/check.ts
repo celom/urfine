@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const CheckSchema = z.object({
   pk: z.string(),
-  url: z.string().url(),
+  url: z.string().url({ message: 'Please enter a valid address.' }),
   name: z.string(),
   cached_response_time: z.number(),
   contact_groups: z.array(z.string()),
@@ -50,6 +50,11 @@ export const CheckSchema = z.object({
   alerts_url: z.string().url(),
   share_url: z.string().url()
 })
+
+export const CheckFormSchema = CheckSchema.pick({
+  name: true,
+  url: true,
+});
 
 export type Check = z.infer<typeof CheckSchema>
 export type CheckInsert = Pick<Check, 'name' | 'url'>
