@@ -1,4 +1,4 @@
-import { Check } from '../common/types/check';
+import { CheckInsert, CheckUpdate, Check } from '../common/types/check';
 import {
   Table,
   TableBody,
@@ -16,68 +16,63 @@ import {
 import { Button } from '../../../libs/components/src/button/button';
 import { Edit, Pause } from 'lucide-react';
 
-// Use the simplified Check type (SimpleCheck)
-type SimpleCheck = Pick<Check, 'pk' | 'name' | 'url' | 'state_is_up'>;
-
 interface CheckListProps {
-  checks: SimpleCheck[];
+  checks: Check[];
+  onEditCheck: (check: CheckInsert) => void;
 }
 
-const columns: ColumnDef<SimpleCheck>[] = [
-  {
-    accessorKey: 'name',
-    header: 'Name',
-  },
-  {
-    accessorKey: 'url',
-    header: 'URL',
-  },
-  {
-    accessorKey: 'state_is_up',
-    header: 'Status',
-    cell: ({ row }) => (
-      <span
-        className={row.original.state_is_up ? 'text-green-500' : 'text-red-500'}
-      >
-        {row.original.state_is_up ? 'UP' : 'DOWN'}
-      </span>
-    ),
-  },
-  {
-    id: 'actions',
-    header: 'Actions',
-    cell: ({ row }) => (
-      <div className="flex gap-2">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => handleEdit(row.original.pk)}
+export default function CheckList({ checks, onEditCheck }: CheckListProps) {
+  const columns: ColumnDef<Check>[] = [
+    {
+      accessorKey: 'name',
+      header: 'Name',
+    },
+    {
+      accessorKey: 'url',
+      header: 'URL',
+    },
+    {
+      accessorKey: 'state_is_up',
+      header: 'Status',
+      cell: ({ row }) => (
+        <span
+          className={
+            row.original.state_is_up ? 'text-green-500' : 'text-red-500'
+          }
         >
-          <Edit className="h-4 w-4" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => handlePause(row.original.pk)}
-        >
-          <Pause className="h-4 w-4" />
-        </Button>
-      </div>
-    ),
-  },
-];
+          {row.original.state_is_up ? 'UP' : 'DOWN'}
+        </span>
+      ),
+    },
+    {
+      id: 'actions',
+      header: 'Actions',
+      cell: ({ row }) => (
+        <div className="flex gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => onEditCheck(row.original)}
+          >
+            <Edit className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => handlePause(row.original.pk)}
+          >
+            <Pause className="h-4 w-4" />
+          </Button>
+        </div>
+      ),
+    },
+  ];
 
-const handleEdit = (checkId: string) => {
-  console.log(`Edit check with id: ${checkId}`);
-  // Implement edit functionality here
-};
+  const handlePause = (checkId: string) => {
+    console.log(`Pause check with id: ${checkId}`);
+    // Implement pause functionality here
+  };
 
-const handlePause = (checkId: string) => {
-  console.log(`Pause check with id: ${checkId}`);
-  // Implement pause functionality here
-};
-
-export default function CheckList({ checks }: CheckListProps) {
   const table = useReactTable({
     data: checks,
     columns,

@@ -52,5 +52,5 @@ export const CheckSchema = z.object({
 })
 
 export type Check = z.infer<typeof CheckSchema>
-export type _CheckInsert = Pick<Check, 'name' | 'url'>
-export type _CheckUpdate = Partial<Check>
+export type CheckInsert = Pick<Check, 'name' | 'url'>
+export type CheckUpdate = Required<Pick<Check, 'pk'>> & Partial<Check>

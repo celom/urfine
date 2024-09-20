@@ -1,11 +1,11 @@
 import { create } from 'zustand'
-import { _CheckInsert, _CheckUpdate, Check } from '../common/types/check'
+import { CheckInsert, CheckUpdate, Check } from '../common/types/check'
 
 interface ChecksStoreState {
   checks: Check[]
   fetchChecks: () => Promise<void>
-  updateCheck: (id: string, updates: Partial<_CheckUpdate>) => Promise<void>
-  createCheck: (newCheck: _CheckInsert) => Promise<void>
+  updateCheck: (id: string, updates: Partial<CheckUpdate>) => Promise<void>
+  createCheck: (newCheck: CheckInsert) => Promise<void>
 }
 
 export const useChecksStore = create<ChecksStoreState>((set) => ({
