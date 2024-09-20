@@ -54,3 +54,11 @@ export const CheckSchema = z.object({
 export type Check = z.infer<typeof CheckSchema>
 export type CheckInsert = Pick<Check, 'name' | 'url'>
 export type CheckUpdate = Required<Pick<Check, 'pk'>> & Partial<Check>
+
+/**
+ * Returns a new CheckInsert object with default values
+ */
+export const spawnCheck = (): CheckInsert => ({
+  name: '',
+  url: ''
+})
