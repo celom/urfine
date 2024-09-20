@@ -5,35 +5,42 @@ import { useChecksStore } from '../store/checksStore';
 import CheckList from './checkList';
 import { Button } from '@uptime/components/button';
 import { signOut } from 'next-auth/react';
-import { CheckInsert, CheckUpdate } from '../common/types/check';
+import { CheckForm } from '../common/types/check';
 
 export default function Dashboard() {
-  const { checks, fetchChecks, createCheck, updateCheck } = useChecksStore();
+  const {
+    checks,
+    locations,
+    fetchChecks,
+    fetchLocations,
+    createCheck,
+    updateCheck,
+  } = useChecksStore();
 
   useEffect(() => {
     fetchChecks();
-  }, [fetchChecks]);
+    fetchLocations();
+  }, [fetchChecks, fetchLocations]);
 
-  const handleAddCheck = async (checkData: CheckInsert) => {
-    await createCheck(checkData);
-  };
-
-  const handleEditCheck = async (checkData: CheckUpdate) => {
-    if ('pk' in checkData) {
+  const handleSaveCheck = async (checkData: CheckForm) => {
+    if (checkData?.pk) {
       await updateCheck(checkData.pk, checkData);
+    } else {
+      await createCheck(checkData);
     }
   };
 
   return (
     <div className="w-full max-w-4xl flex flex-col gap-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">urfine.com Check checker</h1>
+        <h1 className="text-4xl font-extrabold">Checks</h1>
       </div>
       <hr />
       <CheckList
         checks={checks}
-        onAddCheck={handleAddCheck}
-        onEditCheck={handleEditCheck}
+        locations={locations}
+        onAddCheck={handleSaveCheck}
+        onEditCheck={handleSaveCheck}
       />
       <Button onClick={() => signOut()}>Logout</Button>
     </div>

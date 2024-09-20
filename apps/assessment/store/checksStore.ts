@@ -3,17 +3,25 @@ import { CheckInsert, CheckUpdate, Check } from '../common/types/check'
 
 interface ChecksStoreState {
   checks: Check[]
+  locations: string[]
   fetchChecks: () => Promise<void>
+  fetchLocations: () => Promise<void>
   updateCheck: (id: string, updates: Partial<CheckUpdate>) => Promise<void>
   createCheck: (newCheck: CheckInsert) => Promise<void>
 }
 
 export const useChecksStore = create<ChecksStoreState>((set) => ({
   checks: [],
+  locations: [],
   fetchChecks: async () => {
     const response = await fetch('/api/checks')
     const checks: Check[] = await response.json()
     set({ checks })
+  },
+  fetchLocations: async () => {
+    const response = await fetch('/api/checks/locations')
+    const locations: string[] = await response.json()
+    set({ locations })
   },
   updateCheck: async (id, updates) => {
     const response = await fetch(`/api/checks/${id}`, {

@@ -3,9 +3,13 @@ import { authOptions } from '../../auth/[...nextauth]/route'
 import { NextResponse } from 'next/server'
 import { Check } from '../../../../common/types/check'
 
-type SimpleCheck = Pick<Check, 'pk' | 'name' | 'url' | 'state_is_up'>;
+interface RequestParams {
+  params: {
+    id: string
+  }
+}
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: RequestParams) {
   const session = await getServerSession(authOptions)
 
   if (!session) {
@@ -16,7 +20,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
   }
 
   // Mock API call
-  const check: SimpleCheck = {
+  const check: Partial<Check> = {
     pk: params.id,
     name: `Check ${params.id}`,
     url: `https://example${params.id}.com`,
@@ -26,7 +30,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
   return NextResponse.json(check)
 }
 
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+export async function PATCH(request: Request, { params }: RequestParams) {
   const session = await getServerSession(authOptions)
 
   if (!session) {
@@ -36,10 +40,10 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     )
   }
 
-  const body: Partial<SimpleCheck> = await request.json()
+  const body: Partial<Check> = await request.json()
 
   // Mock API call
-  const updatedCheck: SimpleCheck = {
+  const updatedCheck: Partial<Check> = {
     pk: params.id,
     name: body.name || `Check ${params.id}`,
     url: body.url || `https://example${params.id}.com`,
@@ -47,20 +51,4 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   }
 
   return NextResponse.json(updatedCheck)
-}
-
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
-  const session = await getServerSession(authOptions)
-
-  if (!session) {
-    return new NextResponse(
-      JSON.stringify({ error: 'You must be signed in to delete checks.' }),
-      { status: 401 }
-    )
-  }
-
-  // Mock API call
-  // In a real scenario, you would delete the check from your database or external API
-
-  return new NextResponse(null, { status: 204 })
 }

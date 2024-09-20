@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckInsert, CheckUpdate, Check } from '../common/types/check';
+import { Check, CheckForm } from '../common/types/check';
 import {
   Table,
   TableBody,
@@ -15,17 +15,19 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { Button } from '@uptime/components/button';
-import { Edit, Pause, Plus } from 'lucide-react';
+import { Edit, Plus } from 'lucide-react';
 import { CheckFormDialog } from './checkFormDialog';
 
 interface CheckListProps {
   checks: Check[];
-  onAddCheck: (check: CheckInsert) => void;
-  onEditCheck: (check: CheckUpdate) => void;
+  locations: string[];
+  onAddCheck: (check: CheckForm) => void;
+  onEditCheck: (check: CheckForm) => void;
 }
 
 export default function CheckList({
   checks,
+  locations,
   onAddCheck,
   onEditCheck,
 }: CheckListProps) {
@@ -36,10 +38,14 @@ export default function CheckList({
     {
       accessorKey: 'name',
       header: 'Name',
-    },
-    {
-      accessorKey: 'url',
-      header: 'URL',
+      cell: ({ row }) => (
+        <div className="flex flex-col gap-1">
+          <span className="">{row.original.name}</span>
+          <span className="text-xs text-muted-foreground">
+            {row.original.url}
+          </span>
+        </div>
+      ),
     },
     {
       accessorKey: 'state_is_up',
@@ -56,9 +62,9 @@ export default function CheckList({
     },
     {
       id: 'actions',
-      header: 'Actions',
+      header: '',
       cell: ({ row }) => (
-        <div className="flex gap-2">
+        <div className="flex gap-2 justify-end">
           <Button
             variant="ghost"
             size="icon"
@@ -66,23 +72,10 @@ export default function CheckList({
           >
             <Edit className="h-4 w-4" />
           </Button>
-          <Button
-            variant="ghost"
-            disabled
-            size="icon"
-            onClick={() => handlePause(row.original.pk)}
-          >
-            <Pause className="h-4 w-4" />
-          </Button>
         </div>
       ),
     },
   ];
-
-  const handlePause = (checkId: string) => {
-    console.log(`Pause check with id: ${checkId}`);
-    // Implement pause functionality here
-  };
 
   const handleEdit = (check: Check) => {
     setIsDialogOpen(true);
@@ -99,11 +92,11 @@ export default function CheckList({
     setIsDialogOpen(false);
   };
 
-  const handleSubmit = (checkData: CheckInsert | CheckUpdate) => {
+  const handleSubmit = (checkData: CheckForm) => {
     if (selectedCheck) {
-      onEditCheck({ ...checkData, pk: selectedCheck.pk } as CheckUpdate);
+      onEditCheck({ ...checkData, pk: selectedCheck.pk });
     } else {
-      onAddCheck(checkData as CheckInsert);
+      onAddCheck(checkData);
     }
   };
 
@@ -126,7 +119,7 @@ export default function CheckList({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} className="px-6">
                     {flexRender(
                       header.column.columnDef.header,
                       header.getContext()
@@ -140,7 +133,7 @@ export default function CheckList({
             {table.getRowModel().rows.map((row) => (
               <TableRow key={row.id}>
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell key={cell.id} className="px-6">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -151,9 +144,10 @@ export default function CheckList({
       </div>
       <CheckFormDialog
         isOpen={isDialogOpen}
+        initialData={selectedCheck}
+        locations={locations}
         onClose={handleDialogClose}
         onSubmit={handleSubmit}
-        initialData={selectedCheck}
       />
     </div>
   );
