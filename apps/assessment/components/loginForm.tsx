@@ -1,16 +1,16 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@uptime/components/button';
+import { Button } from '@urfine/components/button';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@uptime/components/form';
-import { Input } from '@uptime/components/input';
-import { cn } from '@uptime/utils';
+} from '@urfine/components/form';
+import { Input } from '@urfine/components/input';
+import { cn } from '@urfine/utils';
 import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';

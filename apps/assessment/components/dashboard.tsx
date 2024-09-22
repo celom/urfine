@@ -1,7 +1,7 @@
 'use client';
 
-import { Button } from '@uptime/components/button';
-import { cn } from '@uptime/utils';
+import { Button } from '@urfine/components/button';
+import { cn } from '@urfine/utils';
 import { signOut } from 'next-auth/react';
 import { useEffect } from 'react';
 import { Check, CheckForm } from '../common/types/check';

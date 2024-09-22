@@ -1,14 +1,14 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@uptime/components/button';
+import { Button } from '@urfine/components/button';
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@uptime/components/dialog';
+} from '@urfine/components/dialog';
 import {
   Form,
   FormControl,
@@ -17,10 +17,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@uptime/components/form';
-import { Input } from '@uptime/components/input';
-import { MultiSelect } from '@uptime/components/multi-select';
-import { Slider } from '@uptime/components/slider';
+} from '@urfine/components/form';
+import { Input } from '@urfine/components/input';
+import { MultiSelect } from '@urfine/components/multi-select';
+import { Slider } from '@urfine/components/slider';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import {
@@ -60,7 +60,7 @@ export function CheckFormDialog({
         label: location,
         value: location,
       })),
-    [locations]
+    [locations],
   );
 
   const handleSubmit = (data: CheckForm) => {
@@ -72,14 +72,14 @@ export function CheckFormDialog({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
         onInteractOutside={(e) => e.preventDefault()}
-        className="p-0 max-w-3xl"
+        className="max-w-3xl p-0"
       >
-        <DialogHeader className="p-6 border-b">
+        <DialogHeader className="border-b p-6">
           <DialogTitle className="font-light">Edit Check</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)}>
-            <div className="flex flex-col gap-6 py-6 px-8 max-h-[70vh] overflow-y-auto">
+            <div className="flex max-h-[70vh] flex-col gap-6 overflow-y-auto px-8 py-6">
               <FormField
                 control={form.control}
                 name="name"
@@ -133,7 +133,7 @@ export function CheckFormDialog({
                   </FormItem>
                 )}
               />
-              <div className="flex gap-8 justify-between">
+              <div className="flex justify-between gap-8">
                 <FormField
                   control={form.control}
                   name="locations"
@@ -190,7 +190,7 @@ export function CheckFormDialog({
             </div>
           </form>
         </Form>
-        <DialogFooter className="p-6 border-t">
+        <DialogFooter className="border-t p-6">
           <Button onClick={() => form.handleSubmit(handleSubmit)()}>
             Save
           </Button>

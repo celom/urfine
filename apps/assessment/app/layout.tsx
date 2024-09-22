@@ -4,8 +4,8 @@ import './global.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Uptime Dashboard',
-  description: 'Monitor your website uptime',
+  title: 'Urfine Dashboard',
+  description: 'Check your Check list',
 };
 
 export default function RootLayout({

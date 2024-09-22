@@ -54,25 +54,12 @@ export const CheckFormSchema = CheckSchema.pick({
   contact_groups: true,
   locations: true,
   tags: true,
-  // is_paused: true,
-  // send_resolved_notifications: true,
   msp_address: true,
   msp_interval: true,
-  // msp_threshold: true,
-  // msp_script: true,
-  // msp_sensitivity: true,
-  // msp_num_retries: true,
-  // msp_use_ip_version: true,
-  // msp_uptime_sla: true,
-  // msp_response_time_sla: true,
-  // msp_notes: true,
-  // msp_include_in_global_metrics: true,
 });
 
 export type Check = z.infer<typeof CheckSchema>
 export type CheckForm = z.infer<typeof CheckFormSchema>
-export type CheckInsert = z.infer<typeof CheckFormSchema>
-export type CheckUpdate = Required<Pick<Check, 'pk'>> & Partial<Check>
 
 /**
  * Returns a new CheckForm object with default values
@@ -83,17 +70,6 @@ export const spawnCheck = (): CheckForm => ({
   contact_groups: [],
   locations: [],
   tags: [],
-  // is_paused: false,
-  // send_resolved_notifications: false,
   msp_address: '',
   msp_interval: 5,
-  // msp_threshold: 5,
-  // msp_script: '',
-  // msp_sensitivity: 0,
-  // msp_num_retries: 1,
-  // msp_use_ip_version: 'both',
-  // msp_uptime_sla: '',
-  // msp_response_time_sla: '',
-  // msp_notes: '',
-  // msp_include_in_global_metrics: false,
 })

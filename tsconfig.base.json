@@ -18,10 +18,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@uptime/components/*": [
+      "@urfine/components/*": [
         "libs/components/src/*"
       ],
-      "@uptime/utils": [
+      "@urfine/utils": [
         "libs/utils/src/index.ts"
       ]
     }

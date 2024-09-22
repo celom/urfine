@@ -4,7 +4,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { Button } from '@uptime/components/button';
+import { Button } from '@urfine/components/button';
 import {
   Table,
   TableBody,
@@ -12,8 +12,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@uptime/components/table';
-import { cn } from '@uptime/utils';
+} from '@urfine/components/table';
+import { cn } from '@urfine/utils';
 import { Edit } from 'lucide-react';
 import { useState } from 'react';
 import { Check, CheckForm } from '../common/types/check';
