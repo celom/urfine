@@ -21,8 +21,8 @@ export const config = {
     * - login (login page)
     * - _next/static (static files)
     * - _next/image (image optimization files)
-    * - favicon.ico, sitemap.xml, robots.txt (metadata files)
+    * - dot.svg, favicon.ico, sitemap.xml, robots.txt (metadata files)
     */
-    '/((?!api/auth|login|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+    '/((?!api/auth|login|_next/static|_next/image|dot.svg|favicon.ico|sitemap.xml|robots.txt).*)',
   ],
 };

@@ -4,7 +4,7 @@ import './global.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Urfine Dashboard',
+  title: 'urfine.com',
   description: 'Check your Check list',
 };
 
