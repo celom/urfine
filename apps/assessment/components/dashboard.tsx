@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@urfine/components/button';
+import { useToast } from '@urfine/components/toast';
 import { cn } from '@urfine/utils';
 import { signOut } from 'next-auth/react';
 import { useEffect } from 'react';
@@ -21,6 +22,7 @@ export default function Dashboard({
 }: DashboardProps) {
   const checks = useChecksStore().checks;
   const { saveCheck, setChecks } = useChecksStore();
+  const { toast } = useToast();
 
   useEffect(() => {
     setChecks(preloadedChecks);
@@ -28,7 +30,18 @@ export default function Dashboard({
 
   const handleSaveCheck = async (checkData: CheckForm) => {
     if (checkData?.pk) {
-      await saveCheck(checkData.pk, checkData);
+      saveCheck(checkData.pk, checkData)
+        .then(() => {
+          toast({
+            title: 'Check successfully updated',
+          });
+        })
+        .catch(() => {
+          toast({
+            title: 'Failed to update check',
+            variant: 'destructive',
+          });
+        });
     }
   };
 
