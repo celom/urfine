@@ -17,7 +17,8 @@ export async function loadChecks(params?: ApiCheckRequest) {
   const response = await fetch(url.toString(), {
     headers: {
       'Authorization': `Token ${config.uptimeApiKey}`,
-    }
+    },
+    cache: 'no-cache',
   })
   const checks: ApiGetResponse<Check[]> = await response.json()
   if (!checks) notFound()

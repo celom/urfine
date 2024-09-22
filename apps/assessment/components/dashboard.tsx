@@ -33,7 +33,9 @@ export default function Dashboard({
   };
 
   return (
-    <div className={cn('flex w-full flex-col gap-6', className)}>
+    <div
+      className={cn('flex w-full max-w-screen-lg flex-col gap-6', className)}
+    >
       <div className="flex items-center justify-between">
         <h1 className="text-4xl font-extrabold">Checks</h1>
       </div>
