@@ -1,5 +1,10 @@
-import React, { useState } from 'react';
-import { Check, CheckForm } from '../common/types/check';
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
+import { Button } from '@uptime/components/button';
 import {
   Table,
   TableBody,
@@ -8,14 +13,9 @@ import {
   TableHeader,
   TableRow,
 } from '@uptime/components/table';
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
-import { Button } from '@uptime/components/button';
-import { Edit, Plus } from 'lucide-react';
+import { Edit } from 'lucide-react';
+import { useState } from 'react';
+import { Check, CheckForm } from '../common/types/check';
 import { CheckFormDialog } from './checkFormDialog';
 
 interface CheckListProps {
@@ -42,7 +42,7 @@ export default function CheckList({
         <div className="flex flex-col gap-1">
           <span className="">{row.original.name}</span>
           <span className="text-xs text-muted-foreground">
-            {row.original.url}
+            {row.original.msp_address}
           </span>
         </div>
       ),
@@ -109,9 +109,7 @@ export default function CheckList({
   return (
     <div>
       <div className="mb-4 flex justify-end">
-        <Button onClick={handleAdd}>
-          <Plus className="mr-2 h-4 w-4" /> Add Check
-        </Button>
+        <Button onClick={handleAdd}>Add Check</Button>
       </div>
       <div className="rounded-md border">
         <Table>

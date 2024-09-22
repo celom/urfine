@@ -1,32 +1,31 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useChecksStore } from '../store/checksStore';
-import CheckList from './checkList';
 import { Button } from '@uptime/components/button';
 import { signOut } from 'next-auth/react';
-import { CheckForm } from '../common/types/check';
+import { useEffect } from 'react';
+import { Check, CheckForm } from '../common/types/check';
+import { useChecksStore } from '../store/checksStore';
+import CheckList from './checkList';
 
-export default function Dashboard() {
-  const {
-    checks,
-    locations,
-    fetchChecks,
-    fetchLocations,
-    createCheck,
-    updateCheck,
-  } = useChecksStore();
+interface DashboardProps {
+  preloadedChecks: Check[];
+  preloadedLocations: string[];
+}
+
+export default function Dashboard({
+  preloadedChecks,
+  preloadedLocations,
+}: DashboardProps) {
+  const checks = useChecksStore().checks;
+  const { saveCheck, setChecks } = useChecksStore();
 
   useEffect(() => {
-    fetchChecks();
-    fetchLocations();
-  }, [fetchChecks, fetchLocations]);
+    setChecks(preloadedChecks);
+  }, [preloadedChecks, setChecks]);
 
   const handleSaveCheck = async (checkData: CheckForm) => {
     if (checkData?.pk) {
-      await updateCheck(checkData.pk, checkData);
-    } else {
-      await createCheck(checkData);
+      await saveCheck(checkData.pk, checkData);
     }
   };
 
@@ -38,8 +37,7 @@ export default function Dashboard() {
       <hr />
       <CheckList
         checks={checks}
-        locations={locations}
-        onAddCheck={handleSaveCheck}
+        locations={preloadedLocations}
         onEditCheck={handleSaveCheck}
       />
       <Button onClick={() => signOut()}>Logout</Button>

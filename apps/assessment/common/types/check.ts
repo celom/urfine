@@ -1,18 +1,18 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 const CheckSchema = z.object({
-  pk: z.string().optional(),
+  pk: z.number().optional(),
   url: z.string().url().optional(),
   stats_url: z.string().url().optional(),
   alerts_url: z.string().url().optional(),
   share_url: z.string().url().optional(),
-  name: z.string().max(100),
+  name: z.string().max(100).optional(),
   cached_response_time: z.number().optional(),
   contact_groups: z.array(z.string()),
   created_at: z.string().optional(),
   modified_at: z.string().optional(),
   locations: z.array(z.string()),
-  tags: z.array(z.string()),
+  tags: z.array(z.string()).optional(),
   check_type: z.string().optional(),
   escalations: z.string().optional(),
   maintenance: z.string().optional(),
@@ -23,7 +23,7 @@ const CheckSchema = z.object({
   state_changed_at: z.string().optional(),
   msp_protocol: z.string().optional(),
   msp_interval: z.number().int().min(0).max(2147483647).optional(),
-  msp_address: z.string(),
+  msp_address: z.string().url(),
   msp_port: z.number().int().min(1).max(65535).nullable().optional(),
   msp_username: z.string().max(255).optional(),
   msp_proxy: z.string().max(255).optional(),
@@ -51,12 +51,12 @@ const CheckSchema = z.object({
 export const CheckFormSchema = CheckSchema.pick({
   pk: true,
   name: true,
-  url: true,
   contact_groups: true,
   locations: true,
   tags: true,
   // is_paused: true,
   // send_resolved_notifications: true,
+  msp_address: true,
   msp_interval: true,
   // msp_threshold: true,
   // msp_script: true,
@@ -78,13 +78,14 @@ export type CheckUpdate = Required<Pick<Check, 'pk'>> & Partial<Check>
  * Returns a new CheckForm object with default values
  */
 export const spawnCheck = (): CheckForm => ({
+  pk: undefined,
   name: '',
-  url: '',
   contact_groups: [],
   locations: [],
   tags: [],
   // is_paused: false,
   // send_resolved_notifications: false,
+  msp_address: '',
   msp_interval: 5,
   // msp_threshold: 5,
   // msp_script: '',

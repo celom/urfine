@@ -1,38 +1,47 @@
 import { create } from 'zustand'
-import { CheckInsert, CheckUpdate, Check } from '../common/types/check'
+import { ApiMutateResponse } from '../common/types/api'
+import { Check, CheckForm } from '../common/types/check'
 
 interface ChecksStoreState {
   checks: Check[]
   locations: string[]
-  fetchChecks: () => Promise<void>
-  fetchLocations: () => Promise<void>
-  updateCheck: (id: string, updates: Partial<CheckUpdate>) => Promise<void>
-  createCheck: (newCheck: CheckInsert) => Promise<void>
+  loadChecks: () => Promise<void>
+  loadLocations: () => Promise<void>
+  saveCheck: (id: number, updates: Partial<Check>) => Promise<void>
+  createCheck: (newCheck: CheckForm) => Promise<void>,
+  setChecks: (checks: Check[]) => void,
+  setLocations: (locations: string[]) => void
 }
 
 export const useChecksStore = create<ChecksStoreState>((set) => ({
   checks: [],
   locations: [],
-  fetchChecks: async () => {
+  loadChecks: async () => {
     const response = await fetch('/api/checks')
     const checks: Check[] = await response.json()
     set({ checks })
   },
-  fetchLocations: async () => {
+  loadLocations: async () => {
     const response = await fetch('/api/checks/locations')
     const locations: string[] = await response.json()
     set({ locations })
   },
-  updateCheck: async (id, updates) => {
+  saveCheck: async (id, updates) => {
     const response = await fetch(`/api/checks/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updates),
     })
-    const updatedCheck: Check = await response.json()
+    const updatedCheck: ApiMutateResponse<Check> = await response.json()
+
+    // TODO: Apply proper error handling
+    // if (response.status !== 200) {
+    //   throw new Error(updatedCheck.messages.detail)
+    // }
+
     set((state) => ({
       checks: state.checks.map((check) =>
-        check.pk === id ? { ...check, ...updatedCheck } : check
+        check.pk === id ? { ...check, ...updatedCheck.results } : check
       ),
     }))
   },
@@ -42,9 +51,12 @@ export const useChecksStore = create<ChecksStoreState>((set) => ({
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newCheck),
     })
-    const createdCheck: Check = await response.json()
+    const createdCheck: ApiMutateResponse<Check> = await response.json()
+
     set((state) => ({
-      checks: [...state.checks, createdCheck],
+      checks: [...state.checks, createdCheck.results],
     }))
   },
+  setChecks: (checks: Check[]) => set({ checks }),
+  setLocations: (locations: string[]) => set({ locations }),
 }))
