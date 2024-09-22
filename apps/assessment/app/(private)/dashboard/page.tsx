@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
-import { loadChecks, loadLocations } from '../../actions/checks';
-import Dashboard from '../../components/dashboard';
+import { loadChecks, loadLocations } from '../../../actions/checks';
+import Dashboard from '../../../components/dashboard';
 
 export default async function Page() {
   const checks = await loadChecks();
