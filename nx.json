@@ -1,5 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
+
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
@@ -22,7 +23,6 @@
       }
     }
   },
-  "nxCloudId": "66eb15dc9d238003d84fb649",
   "plugins": [
     {
       "plugin": "@nx/next/plugin",
@@ -58,5 +58,6 @@
         "unitTestRunner": "jest"
       }
     }
-  }
+  },
+  "neverConnectToCloud": true
 }
