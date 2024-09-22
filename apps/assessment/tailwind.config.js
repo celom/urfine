@@ -1,6 +1,6 @@
-import { fontFamily } from 'tailwindcss/defaultTheme';
 import { createGlobPatternsForDependencies } from '@nx/react/tailwind';
 import { join } from 'path';
+import { fontFamily } from 'tailwindcss/defaultTheme';
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {

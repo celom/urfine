@@ -13,18 +13,21 @@ import {
   TableHeader,
   TableRow,
 } from '@uptime/components/table';
+import { cn } from '@uptime/utils';
 import { Edit } from 'lucide-react';
 import { useState } from 'react';
 import { Check, CheckForm } from '../common/types/check';
 import { CheckFormDialog } from './checkFormDialog';
 
 interface CheckListProps {
+  className?: string;
   checks: Check[];
   locations: string[];
   onEditCheck: (check: CheckForm) => void;
 }
 
 export default function CheckList({
+  className,
   checks,
   locations,
   onEditCheck,
@@ -46,6 +49,19 @@ export default function CheckList({
       ),
     },
     {
+      accessorKey: 'contact_groups',
+      header: 'Contacts',
+      cell: ({ row }) => (
+        <div className="flex flex-col gap-1">
+          {row.original.contact_groups.map((group) => (
+            <span key={group} className="text-gray-400">
+              {group}
+            </span>
+          ))}
+        </div>
+      ),
+    },
+    {
       accessorKey: 'state_is_up',
       header: 'Status',
       cell: ({ row }) => (
@@ -59,10 +75,17 @@ export default function CheckList({
       ),
     },
     {
+      accessorKey: 'msp_uptime_sla',
+      header: 'Uptime (24h)',
+      cell: ({ row }) => (
+        <span>{Number(row.original.msp_uptime_sla) * 100}%</span>
+      ),
+    },
+    {
       id: 'actions',
       header: '',
       cell: ({ row }) => (
-        <div className="flex gap-2 justify-end">
+        <div className="flex justify-end gap-2">
           <Button
             variant="ghost"
             size="icon"
@@ -98,17 +121,20 @@ export default function CheckList({
   });
 
   return (
-    <div>
-      <div className="rounded-md border">
+    <>
+      <div className={cn('rounded-md border', className)}>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="px-6">
+                  <TableHead
+                    key={header.id}
+                    className="px-6 font-bold text-black"
+                  >
                     {flexRender(
                       header.column.columnDef.header,
-                      header.getContext()
+                      header.getContext(),
                     )}
                   </TableHead>
                 ))}
@@ -135,6 +161,6 @@ export default function CheckList({
         onClose={handleDialogClose}
         onSubmit={handleSubmit}
       />
-    </div>
+    </>
   );
 }

@@ -1,3 +1,5 @@
 {
-  "singleQuote": true
+  "singleQuote": true,
+  "tailwindConfig": "./apps/assessment/tailwind.config.js",
+  "plugins": ["prettier-plugin-tailwindcss"]
 }

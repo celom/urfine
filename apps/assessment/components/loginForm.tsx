@@ -1,19 +1,19 @@
 'use client';
 
-import { signIn } from 'next-auth/react';
-import { Button } from '@uptime/components/button';
-import { Input } from '@uptime/components/input';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { Button } from '@uptime/components/button';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@uptime/components/form';
+import { Input } from '@uptime/components/input';
+import { cn } from '@uptime/utils';
+import { signIn } from 'next-auth/react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 const LoginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -22,7 +22,11 @@ const LoginSchema = z.object({
 
 type LoginFormData = z.infer<typeof LoginSchema>;
 
-export default function LoginForm() {
+export interface LoginFormProps {
+  className?: string;
+}
+
+export default function LoginForm(props: LoginFormProps) {
   const form = useForm<LoginFormData>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -37,13 +41,15 @@ export default function LoginForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className={cn('flex flex-col gap-2', props.className)}
+      >
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input type="email" placeholder="Email" {...field} />
               </FormControl>
@@ -56,7 +62,6 @@ export default function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input type="password" placeholder="Password" {...field} />
               </FormControl>
@@ -64,7 +69,9 @@ export default function LoginForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Login</Button>
+        <Button type="submit" className="w-full">
+          Login
+        </Button>
       </form>
     </Form>
   );
