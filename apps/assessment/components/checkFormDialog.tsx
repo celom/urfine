@@ -75,9 +75,7 @@ export function CheckFormDialog({
         className="p-0 max-w-3xl"
       >
         <DialogHeader className="p-6 border-b">
-          <DialogTitle className="font-light">
-            {initialData ? 'Edit Check' : 'Add Check'}
-          </DialogTitle>
+          <DialogTitle className="font-light">Edit Check</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)}>

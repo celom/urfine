@@ -21,14 +21,12 @@ import { CheckFormDialog } from './checkFormDialog';
 interface CheckListProps {
   checks: Check[];
   locations: string[];
-  onAddCheck: (check: CheckForm) => void;
   onEditCheck: (check: CheckForm) => void;
 }
 
 export default function CheckList({
   checks,
   locations,
-  onAddCheck,
   onEditCheck,
 }: CheckListProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -82,11 +80,6 @@ export default function CheckList({
     setSelectedCheck(check);
   };
 
-  const handleAdd = () => {
-    setSelectedCheck(null);
-    setIsDialogOpen(true);
-  };
-
   const handleDialogClose = () => {
     setSelectedCheck(null);
     setIsDialogOpen(false);
@@ -95,8 +88,6 @@ export default function CheckList({
   const handleSubmit = (checkData: CheckForm) => {
     if (selectedCheck) {
       onEditCheck({ ...checkData, pk: selectedCheck.pk });
-    } else {
-      onAddCheck(checkData);
     }
   };
 
@@ -108,9 +99,6 @@ export default function CheckList({
 
   return (
     <div>
-      <div className="mb-4 flex justify-end">
-        <Button onClick={handleAdd}>Add Check</Button>
-      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
