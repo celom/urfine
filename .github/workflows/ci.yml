@@ -13,6 +13,9 @@ permissions:
 jobs:
   main:
     runs-on: ubuntu-latest
+    env:
+      UPTIME_API_KEY: ${{ secrets.UPTIME_API_KEY }}
+      UPTIME_API_HOST: ${{ secrets.UPTIME_API_HOST }}
     steps:
       - uses: actions/checkout@v4
         with:
