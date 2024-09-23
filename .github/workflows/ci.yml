@@ -36,5 +36,5 @@ jobs:
       - name: Run many tasks
         env:
           UPTIME_API_KEY: ${{ secrets.UPTIME_API_KEY }}
-          UPTIME_API_HOST: ${{ github.env.UPTIME_API_HOST }}
+          UPTIME_API_HOST: ${{ secrets.UPTIME_API_HOST }}
         run: bun nx run-many -t lint test build
