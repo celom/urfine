@@ -1,81 +1,104 @@
-# Urfine
+# Urfine Project
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+## Project Overview
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+This project is a monorepo-based application using Next.js for the frontend and various modern web technologies. It's structured using Nx as a build system and workspace management tool.
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/next?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+## Project Composition
 
-## Finish your CI setup
+The project is composed of two main parts:
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/VMTjSQBdmA)
+1. **Apps**: Contains the main application(s)
 
-## Run tasks
+   - `assessment`: The primary Next.js application
 
-To run the dev server for your app, use:
+2. **Libs**: Shared libraries and components
+   - `components`: Reusable React components
+   - `utils`: Utility functions and helpers
 
-```sh
-npx nx dev assessment
+## Features
+
+- Next.js-based web application
+- Monorepo structure using Nx
+- Shared component library
+- TypeScript support
+- Tailwind CSS for styling
+- Authentication (NextAuth.js)
+- Form handling with react-hook-form
+- State management with Zustand
+- API integrations
+
+## Project Organization
+
+```
+.
+├── apps
+│   └── assessment (Main Next.js application)
+│       ├── actions
+│       ├── app
+│       ├── common
+│       ├── components
+│       ├── public
+│       ├── specs
+│       ├── store
+│       └── utils
+├── libs
+│   ├── components (Shared React components)
+│   └── utils (Shared utility functions)
 ```
 
-To create a production bundle:
+## Technology Stack
 
-```sh
-npx nx build assessment
-```
+- **Frontend Framework**: Next.js 14
+- **Language**: TypeScript
+- **State Management**: Zustand
+- **Styling**: Tailwind CSS
+- **UI Components**:
+  - Custom components
+  - Shadcn UI wrappers
+  - Radix UI primitives
+- **Form Handling**: react-hook-form
+- **Authentication**: NextAuth.js
+- **Development Tools**:
+  - Nx (Monorepo management)
+  - ESLint (Linting)
+  - Prettier (Code formatting)
+  - Jest (Testing)
 
-To see all available targets to run for a project, run:
+## Getting Started
 
-```sh
-npx nx show project assessment
-```
+1. Clone the repository
+2. Install dependencies:
+   ```
+   bun install
+   ```
+3. Run the development server:
+   ```
+   bun run dev
+   ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+## Available Scripts
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- `bun dev`: Start the development server
+- `bun nx test <project-name>`: Run tests for specific project
+- `bun nx run-many -t test`: Run tests for all project
+- `bun nx lint lint <project-name>`: Lint the codebase for specific project
+- `bun nx run-many -t lint`: Lint the codebase for all project
 
-## Add new projects
+## Project Structure
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+- `apps/assessment`: Main Next.js application
 
-Use the plugin's generator to create new projects.
+  - `app`: Next.js app directory
+  - `components`: Application-specific components
+  - `common`: Shared types and utilities
+  - `store`: Zustand store definitions
+  - `actions`: Server actions (Next.js 14 feature)
+  - `api`: API routes
 
-To generate a new application, use:
+- `libs/components`: Shared React components library
+- `libs/utils`: Shared utility functions
 
-```sh
-npx nx g @nx/next:app demo
-```
+## License
 
-To generate a new library, use:
-
-```sh
-npx nx g @nx/react:lib mylib
-```
-
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
-
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/nx-api/next?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+This project is licensed under the MIT License.
